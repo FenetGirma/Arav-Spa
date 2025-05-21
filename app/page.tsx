@@ -9,8 +9,13 @@ import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { useMobile } from "@/hooks/use-mobile"
 import OverlayCard from "@/components/overlaycard"
+import { ThemeToggle } from "@/components/theme-toggle"
+import { useTheme } from "@/components/theme-provider"
 
 export default function Home() {
+  const { theme } = useTheme()
+  const isLightTheme = theme === "light"
+
   const homeRef = useRef<HTMLElement>(null) as React.RefObject<HTMLElement>
   const aboutRef = useRef<HTMLElement>(null) as React.RefObject<HTMLElement>
   const serviceRef = useRef<HTMLElement>(null) as React.RefObject<HTMLElement>
@@ -87,7 +92,7 @@ export default function Home() {
       name: "Elena Miyazaki",
       role: "Wellness Coach",
       image: "/images/test3.png",
-      text: "I recommend Aravē to all my clients seeking deep relaxation and rejuvenation. Their holistic approach to wellness aligns perfectly with my philosophy. The Aromatherapy Session was particularly outstanding - I left feeling balanced and renewed both mentally and physically.",
+      text: "I recommend Aravē to all my clients seeking deep relaxation and rejuvenation. Their holistic approach to wellness aligns perfectly with my philosophy. The Aromatherapy Session was particularly outstanding and effective.",
     },
   ]
 
@@ -253,113 +258,146 @@ export default function Home() {
     setShowConfirmation(true)
   }
 
+  // Theme-specific styling
+  const styles = {
+    // Common
+    primaryBtn: "bg-[#8ca889] hover:bg-[#7a9677] text-white font-elegant",
+
+    // Light mode specific
+    hero: isLightTheme ? "bg-[#f3efe9]" : "bg-[#2c2c2c]",
+    about: isLightTheme ? "bg-[#fcfaf7]" : "bg-[#444444]",
+    service: isLightTheme ? "bg-white" : "bg-[#2c2c2c]",
+    treatments: isLightTheme ? "bg-[#f4f0e8]" : "bg-[#444444]",
+    packages: isLightTheme ? "bg-white" : "bg-[#2c2c2c]",
+    testimonials: isLightTheme ? "bg-[#f4f0e8]" : "bg-[#444444]",
+    gallery: isLightTheme ? "bg-white" : "bg-[#2c2c2c]",
+    booking: isLightTheme ? "bg-[#f4f0e8]" : "bg-[#444444]",
+    footer: isLightTheme ? "bg-[#3c3c3c]" : "bg-[#1e1e1e]",
+
+    // Text
+    text: isLightTheme ? "text-[#3c3c3c]" : "text-white",
+    subText: isLightTheme ? "text-[#666666]" : "text-gray-300",
+
+    // Cards & Panels
+    statCard: isLightTheme
+      ? "border border-[#e5e0d8] bg-white/80 backdrop-blur-sm"
+      : "border border-[#4a4a4a] bg-[#2c2c2c]/80 backdrop-blur-sm",
+    servicePanel: isLightTheme ? "bg-[#3c3c3c]/70" : "bg-[#1e1e1e]/70",
+    hoverPanel: isLightTheme ? "bg-white" : "bg-[#2c2c2c]",
+    packageCard: isLightTheme ? "bg-[#f9f5f0]" : "bg-[#3c3c3c]",
+    testimonialCard: isLightTheme ? "bg-white" : "bg-[#2c2c2c]",
+    bookingCard: isLightTheme ? "bg-[#f9f5f0]" : "bg-[#333333]",
+    inputBg: isLightTheme ? "bg-white/80" : "bg-white/10",
+    timeButton: isLightTheme
+      ? "bg-white hover:bg-[#8ca889]/10 text-[#3c3c3c]"
+      : "bg-white/10 hover:bg-[#8ca889]/10 text-gray-300",
+    confirmationCard: isLightTheme ? "bg-white" : "bg-[#2c2c2c]",
+    infoPanel: isLightTheme ? "bg-[#f9f5f0]" : "bg-[#3c3c3c]",
+  }
+
   return (
-    <div className="min-h-screen bg-[#f9f5f0] font-luxury">
+    <div className="min-h-screen">
+      {/* Theme Toggle Button */}
+      <ThemeToggle />
+
       {/* Elegant Header with Creative Navigation */}
       <header
         className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
-          scrolled ? "bg-[#f9f5f0]/95 backdrop-blur-sm shadow-sm py-2" : "bg-transparent py-4"
+          scrolled
+            ? (isLightTheme ? "bg-[#f9f5f0]/95" : "bg-[#1e1e1e]/95") + " backdrop-blur-sm shadow-sm py-2"
+            : "bg-transparent py-4"
         }`}
       >
         <div className="container flex items-center justify-between h-20 px-4 mx-auto">
           <Link href="/" className="flex items-center space-x-3">
             <div className="relative h-12 w-12">
-              <Image
-                src="/images/header.png"
-                alt="Aravē Spa Logo"
-                fill
-                className="object-contain"
-              />
+              <Image src="/images/header.png" alt="Aravē Spa Logo" fill className="object-contain" />
             </div>
             <span className="text-3xl tracking-wide font-cursive">
               <span className="text-[#8ca889]">Ara</span>
-              <span className="text-[#3c3c3c]">vē</span>
+              <span className={isLightTheme ? "text-[#3c3c3c]" : "text-gray-200"}>vē</span>
             </span>
           </Link>
 
           {isMobile ? (
             <Sheet>
-              <SheetTrigger asChild className="z-60">
+              <SheetTrigger asChild>
                 <Button variant="ghost" size="icon" className="text-[#8ca889]">
                   <Menu className="w-6 h-6" />
                 </Button>
               </SheetTrigger>
-              <SheetContent className="bg-white/95 backdrop-blur-sm w-[280px] ">
+              <SheetContent
+                className={`${isLightTheme ? "bg-white/95" : "bg-[#2c2c2c]/95"} backdrop-blur-sm w-[280px] border-none`}
+              >
                 <div className="flex items-center space-x-3 mb-8">
                   <div className="relative h-12 w-12">
-                    <Image
-                      src="/images/header.png"
-                      alt="Aravē Spa Logo"
-                      fill
-                      className="object-contain"
-                    />
+                    <Image src="/images/header.png" alt="Aravē Spa Logo" fill className="object-contain" />
                   </div>
                   <span className="text-3xl font-cursive tracking-wide">
                     <span className="text-[#8ca889]">Ara</span>
-                    <span className="text-[#3c3c3c]">vē</span>
+                    <span className={isLightTheme ? "text-[#3c3c3c]" : "text-gray-200"}>vē</span>
                   </span>
                 </div>
                 <nav className="flex flex-col gap-6 mt-8">
                   <Link
                     href=""
                     onClick={(e) => {
-                      e.preventDefault();
-                      scrollToSection(homeRef);
+                      e.preventDefault()
+                      scrollToSection(homeRef)
                     }}
-                    className="text-lg text-[#3c3c3c] hover:text-[#8ca889] transition-colors font-elegant"
+                    className={`text-lg ${isLightTheme ? "text-[#3c3c3c]" : "text-gray-300"} hover:text-[#8ca889] transition-colors font-elegant`}
                   >
                     Home
                   </Link>
                   <Link
                     href=""
                     onClick={(e) => {
-                      e.preventDefault();
-                      scrollToSection(aboutRef);
+                      e.preventDefault()
+                      scrollToSection(aboutRef)
                     }}
-                    className="text-lg text-[#3c3c3c] hover:text-[#8ca889] transition-colors font-elegant"
+                    className={`text-lg ${isLightTheme ? "text-[#3c3c3c]" : "text-gray-300"} hover:text-[#8ca889] transition-colors font-elegant`}
                   >
                     About
                   </Link>
                   <Link
                     href=""
                     onClick={(e) => {
-                      e.preventDefault();
-                      scrollToSection(serviceRef);
+                      e.preventDefault()
+                      scrollToSection(serviceRef)
                     }}
-                    className="text-lg text-[#3c3c3c] hover:text-[#8ca889] transition-colors font-elegant"
+                    className={`text-lg ${isLightTheme ? "text-[#3c3c3c]" : "text-gray-300"} hover:text-[#8ca889] transition-colors font-elegant`}
                   >
                     Services
                   </Link>
                   <Link
                     href="#"
                     onClick={() => scrollToSection(packagesRef)}
-                    className="text-lg text-[#3c3c3c] hover:text-[#8ca889] transition-colors font-elegant"
+                    className={`text-lg ${isLightTheme ? "text-[#3c3c3c]" : "text-gray-300"} hover:text-[#8ca889] transition-colors font-elegant`}
                   >
                     Packages
                   </Link>
                   <Link
                     href="#"
                     onClick={() => scrollToSection(testimonialRef)}
-                    className="text-lg text-[#3c3c3c] hover:text-[#8ca889] transition-colors font-elegant"
+                    className={`text-lg ${isLightTheme ? "text-[#3c3c3c]" : "text-gray-300"} hover:text-[#8ca889] transition-colors font-elegant`}
                   >
                     Testimonials
                   </Link>
                   <Link
                     href="#"
                     onClick={() => scrollToSection(galleryRef)}
-                    className="text-lg text-[#3c3c3c] hover:text-[#8ca889] transition-colors font-elegant"
+                    className={`text-lg ${isLightTheme ? "text-[#3c3c3c]" : "text-gray-300"} hover:text-[#8ca889] transition-colors font-elegant`}
                   >
                     Gallery
                   </Link>
                   <div className="flex items-center justify-center">
                     <Button
-                    onClick={() => handleBookNow()}
-                    className="mt-4 w-full bg-[#8ca889] hover:bg-[#7a9677] text-white font-elegant items-end"
-                  >
-                    Book Now
-                  </Button>
+                      onClick={() => handleBookNow()}
+                      className="mt-4 w-full bg-[#8ca889] hover:bg-[#7a9677] text-white font-elegant"
+                    >
+                      Book Now
+                    </Button>
                   </div>
-                  
                 </nav>
               </SheetContent>
             </Sheet>
@@ -367,7 +405,9 @@ export default function Home() {
             <nav className="flex items-center">
               <div
                 className={`relative flex items-center justify-center ${
-                  scrolled ? "" : "rounded-full px-4 py-2 backdrop-blur-sm bg-white/10"
+                  scrolled
+                    ? ""
+                    : "rounded-full px-4 py-2 backdrop-blur-sm " + (isLightTheme ? "bg-white/10" : "bg-white/5")
                 }`}
               >
                 <ul className="relative flex items-center gap-2 z-10">
@@ -382,9 +422,9 @@ export default function Home() {
                       <button
                         type="button"
                         onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          scrollToSection(item.ref);
+                          e.preventDefault()
+                          e.stopPropagation()
+                          scrollToSection(item.ref)
                         }}
                         className="nav-link font-elegant"
                       >
@@ -398,7 +438,8 @@ export default function Home() {
                       className={`ml-2 px-6 py-2 transition-all duration-300 ${
                         scrolled
                           ? "bg-[#8ca889] hover:bg-[#7a9677] text-white"
-                          : "bg-white/90 text-[#8ca889] hover:bg-[#8ca889] hover:text-white border border-[#8ca889]"
+                          : (isLightTheme ? "bg-white/90 text-[#8ca889]" : "bg-white/10 text-white") +
+                            " hover:bg-[#8ca889] hover:text-white border border-[#8ca889]"
                       } font-elegant`}
                     >
                       Book Now
@@ -413,18 +454,25 @@ export default function Home() {
 
       <main>
         {/* Hero Section */}
-        <section ref={homeRef} className="relative overflow-hidden bg-[#f3efe9] min-h-screen flex items-center pt-24 md:pt-0">
+        <section
+          ref={homeRef}
+          className={`relative overflow-hidden ${styles.hero} min-h-screen flex items-center pt-24 md:pt-0`}
+        >
           <div className="absolute right-0 top-[80%] -translate-y-1/2 z-40 lg:right-24 hidden md:block">
-      <OverlayCard />
-    </div>
+            <OverlayCard />
+          </div>
           <div className="container px-4 mx-auto md:py-24">
-          
             <div className="grid items-center lg:grid-cols-2 gap-12">
               <div className="max-w-lg">
-                <h1 className="mb-4 md:mb-6 font-luxury text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-normal tracking-tight text-[#3c3c3c]">
-                  <span className="font-cursive text-[#8ca889]">Skin</span> and <span className="font-cursive text-[#8ca889]">Soul</span> Care
+                <h1
+                  className={`mb-4 md:mb-6 font-luxury text-3xl sm:text-4xl md:text-5xl lg:text-5xl lg:text-7xl font-normal tracking-tight ${styles.text}`}
+                >
+                  <span className="font-cursive text-[#8ca889]">Skin</span> and{" "}
+                  <span className="font-cursive text-[#8ca889]">Soul</span> Care
                 </h1>
-                <p className="mb-6 md:mb-8 text-base md:text-lg text-[#666666] leading-relaxed max-w-md font-elegant">
+                <p
+                  className={`mb-6 md:mb-8 text-base md:text-lg ${styles.subText} leading-relaxed max-w-md font-elegant`}
+                >
                   We believe in providing our valued clients with an elevated spa experience, and our Exclusive
                   Membership is designed to offer you a host of special privileges and benefits.
                 </p>
@@ -438,17 +486,11 @@ export default function Home() {
 
               <div className="relative">
                 <div className="relative overflow-hidden rounded-2xl aspect-square">
-                  <Image
-                    src="/images/headers.png"
-                    alt="Spa products and treatments"
-                    fill
-                    className="object-contain"
-                  />
+                  <Image src="/images/headers.png" alt="Spa products and treatments" fill className="object-contain" />
                 </div>
               </div>
             </div>
-            </div>
-          
+          </div>
 
           {/* Decorative elements */}
           <div className="absolute top-20 right-20">
@@ -460,8 +502,6 @@ export default function Home() {
               <circle cx="75" cy="35" r="7" fill="#8ca889" fillOpacity="0.2" />
             </svg>
           </div>
-
-          
 
           {/* Additional pattern at bottom left */}
           <div className="absolute bottom-40 left-10">
@@ -476,11 +516,13 @@ export default function Home() {
         </section>
 
         {/* About Us Section */}
-        <section ref={aboutRef} className="py-16 bg-[#fcfaf7]">
+        <section ref={aboutRef} className={`py-16 ${styles.about}`}>
           <div className="container px-4 mx-auto text-center">
             <h3 className="section-subtitle">EXPLORE ARAVĒ</h3>
 
-            <p className="max-w-3xl mx-auto mb-10 text-lg leading-relaxed text-[#3c6e71] font-elegant italic">
+            <p
+              className={`max-w-3xl mx-auto mb-10 text-lg leading-relaxed ${isLightTheme ? "text-[#3c6e71]" : "text-gray-300"} font-elegant italic`}
+            >
               Step into a world where luxury meets wellness. Our spa is meticulously curated to offer you an immersive
               experience that nurtures the body and soothes the soul. From plush robes to ambient lighting, every detail
               is thoughtfully crafted to elevate your senses.
@@ -507,9 +549,18 @@ export default function Home() {
             <div className="relative">
               <div className="grid grid-cols-1 gap-6 pt-10 md:grid-cols-2 lg:grid-cols-4">
                 {/* Branch In World */}
-                <div className="flex flex-col items-center p-4 md:p-8 border border-[#e5e0d8] rounded-[40px] bg-white/80 backdrop-blur-sm shadow-sm hover:shadow-md transition-all">
+                <div
+                  className={`flex flex-col items-center p-4 md:p-8 ${styles.statCard} rounded-[40px] shadow-sm hover:shadow-md transition-all`}
+                >
                   <div className="mb-2">
-                    <svg width="24" height="24" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" className="md:w-[30px] md:h-[30px]">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 30 30"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="md:w-[30px] md:h-[30px]"
+                    >
                       <path
                         d="M15 5C15 7.76142 12.7614 10 10 10C7.23858 10 5 7.76142 5 5C5 2.23858 7.23858 0 10 0C12.7614 0 15 2.23858 15 5Z"
                         fill="#8ca889"
@@ -527,9 +578,18 @@ export default function Home() {
                 </div>
 
                 {/* Satisfied Customers */}
-                <div className="flex flex-col items-center p-4 md:p-8 border border-[#e5e0d8] rounded-[40px] bg-white/80 backdrop-blur-sm shadow-sm hover:shadow-md transition-all">
+                <div
+                  className={`flex flex-col items-center p-4 md:p-8 ${styles.statCard} rounded-[40px] shadow-sm hover:shadow-md transition-all`}
+                >
                   <div className="mb-2">
-                    <svg width="24" height="24" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" className="md:w-[30px] md:h-[30px]">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 30 30"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="md:w-[30px] md:h-[30px]"
+                    >
                       <path
                         d="M15 5C15 7.76142 12.7614 10 10 10C7.23858 10 5 7.76142 5 5C5 2.23858 7.23858 0 10 0C12.7614 0 15 2.23858 15 5Z"
                         fill="#8ca889"
@@ -547,9 +607,18 @@ export default function Home() {
                 </div>
 
                 {/* Personal Staff */}
-                <div className="flex flex-col items-center p-4 md:p-8 border border-[#e5e0d8] rounded-[40px] bg-white/80 backdrop-blur-sm shadow-sm hover:shadow-md transition-all">
+                <div
+                  className={`flex flex-col items-center p-4 md:p-8 ${styles.statCard} rounded-[40px] shadow-sm hover:shadow-md transition-all`}
+                >
                   <div className="mb-2">
-                    <svg width="24" height="24" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" className="md:w-[30px] md:h-[30px]">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 30 30"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="md:w-[30px] md:h-[30px]"
+                    >
                       <path
                         d="M15 0C15 10 20 15 30 15C20 15 15 20 15 30C15 20 10 15 0 15C10 15 15 10 15 0Z"
                         fill="#8ca889"
@@ -563,9 +632,18 @@ export default function Home() {
                 </div>
 
                 {/* Years Of Experience */}
-                <div className="flex flex-col items-center p-4 md:p-8 border border-[#e5e0d8] rounded-[40px] bg-white/80 backdrop-blur-sm shadow-sm hover:shadow-md transition-all">
+                <div
+                  className={`flex flex-col items-center p-4 md:p-8 ${styles.statCard} rounded-[40px] shadow-sm hover:shadow-md transition-all`}
+                >
                   <div className="mb-2">
-                    <svg width="24" height="24" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" className="md:w-[30px] md:h-[30px]">
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 30 30"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="md:w-[30px] md:h-[30px]"
+                    >
                       <path
                         d="M15 0C15 10 20 15 30 15C20 15 15 20 15 30C15 20 10 15 0 15C10 15 15 10 15 0Z"
                         fill="#8ca889"
@@ -582,12 +660,12 @@ export default function Home() {
           </div>
         </section>
 
-        <section ref={serviceRef} className="relative py-20 overflow-hidden md:py-28 bg-white">
+        <section ref={serviceRef} className={`relative py-20 overflow-hidden md:py-28 ${styles.service}`}>
           <div className="container px-4 mx-auto">
             <div className="grid items-center gap-12 lg:grid-cols-2">
               {/* Left side - Image with white border */}
               <div className="relative">
-                <div className="p-4 pr-4 bg-white max-w-md mx-auto">
+                <div className={`p-4 pr-4 ${isLightTheme ? "bg-white" : "bg-[#3c3c3c]"} max-w-md mx-auto`}>
                   <div className="relative overflow-hidden aspect-[4/5]">
                     <Image
                       src="/images/main.png"
@@ -613,38 +691,40 @@ export default function Home() {
                 <h3 className="mb-4 text-sm font-normal tracking-widest uppercase text-[#8ca889] font-luxury">
                   SERVICE
                 </h3>
-                <h2 className="mb-6 font-luxury text-3xl sm:text-4xl font-light leading-tight text-[#3c3c3c] md:text-5xl">
+                <h2
+                  className={`mb-6 font-luxury text-3xl sm:text-4xl font-light leading-tight ${styles.text} md:text-5xl`}
+                >
                   We Provide the Best <br />
                   for Your Satisfaction
                 </h2>
-                <p className="mb-10 text-base text-[#666666] max-w-md leading-relaxed font-luxury">
+                <p className={`mb-10 text-base ${styles.subText} max-w-md leading-relaxed font-luxury`}>
                   we believe in providing our valued clients with an elevated spa experience, and our Exclusive
                   Membership is designed to offer you...
                 </p>
                 <div className="grid grid-cols-2 gap-x-6 gap-y-8">
                   <div className="flex items-center gap-2 md:gap-4">
                     <div className="flex items-center justify-center w-10 h-10 md:w-14 md:h-14 rounded-full bg-[#8ca889]/30">
-                      <span className="font-luxury text-base md:text-xl font-normal text-[#3c3c3c]">01</span>
+                      <span className={`font-luxury text-base md:text-xl font-normal ${styles.text}`}>01</span>
                     </div>
-                    <span className="font-luxury text-lg md:text-2xl font-normal text-[#3c3c3c]">Massage</span>
+                    <span className={`font-luxury text-lg md:text-2xl font-normal ${styles.text}`}>Massage</span>
                   </div>
                   <div className="flex items-center gap-2 md:gap-4">
                     <div className="flex items-center justify-center w-10 h-10 md:w-14 md:h-14 rounded-full bg-[#8ca889]/30">
-                      <span className="font-luxury text-base md:text-xl font-normal text-[#3c3c3c]">03</span>
+                      <span className={`font-luxury text-base md:text-xl font-normal ${styles.text}`}>03</span>
                     </div>
-                    <span className="font-luxury text-lg md:text-2xl font-normal text-[#3c3c3c]">Relaxation</span>
+                    <span className={`font-luxury text-lg md:text-2xl font-normal ${styles.text}`}>Relaxation</span>
                   </div>
                   <div className="flex items-center gap-2 md:gap-4">
                     <div className="flex items-center justify-center w-10 h-10 md:w-14 md:h-14 rounded-full bg-[#8ca889]/30">
-                      <span className="font-luxury text-base md:text-xl font-normal text-[#3c3c3c]">02</span>
+                      <span className={`font-luxury text-base md:text-xl font-normal ${styles.text}`}>02</span>
                     </div>
-                    <span className="font-luxury text-lg md:text-2xl font-normal text-[#3c3c3c]">Treatment</span>
+                    <span className={`font-luxury text-lg md:text-2xl font-normal ${styles.text}`}>Treatment</span>
                   </div>
                   <div className="flex items-center gap-2 md:gap-4">
                     <div className="flex items-center justify-center w-10 h-10 md:w-14 md:h-14 rounded-full bg-[#8ca889]/30">
-                      <span className="font-luxury text-base md:text-xl font-normal text-[#3c3c3c]">04</span>
+                      <span className={`font-luxury text-base md:text-xl font-normal ${styles.text}`}>04</span>
                     </div>
-                    <span className="font-luxury text-lg md:text-2xl font-normal text-[#3c3c3c]">Sauna</span>
+                    <span className={`font-luxury text-lg md:text-2xl font-normal ${styles.text}`}>Sauna</span>
                   </div>
                 </div>
               </div>
@@ -660,16 +740,18 @@ export default function Home() {
         </section>
 
         {/* New Services Section with Oval Images */}
-        <section className="py-12 md:py-20 bg-[#f4f0e8] lg:py-28">
+        <section className={`py-12 md:py-20 ${styles.treatments} lg:py-28`}>
           <div className="container px-4 mx-auto">
             <div className="text-center mb-16">
               <h3 className="mb-4 text-sm font-normal tracking-widest uppercase text-[#8ca889] font-luxury">
                 OUR TREATMENTS
               </h3>
-              <h2 className="mb-6 font-luxury text-3xl sm:text-4xl font-light leading-tight text-[#3c3c3c] md:text-5xl">
+              <h2
+                className={`mb-6 font-luxury text-3xl sm:text-4xl font-light leading-tight ${styles.text} md:text-5xl`}
+              >
                 Discover Our Spa Experiences
               </h2>
-              <p className="mx-auto mb-10 text-base text-[#666666] max-w-2xl leading-relaxed font-luxury">
+              <p className={`mx-auto mb-10 text-base ${styles.subText} max-w-2xl leading-relaxed font-luxury`}>
                 Explore our range of thoughtfully designed treatments that combine ancient wisdom with modern techniques
                 to provide the ultimate relaxation and rejuvenation experience.
               </p>
@@ -694,7 +776,9 @@ export default function Home() {
                     />
 
                     {/* Gradient overlay - always visible */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#3c3c3c]/70 to-transparent opacity-70 transition-opacity duration-300"></div>
+                    <div
+                      className={`absolute inset-0 bg-gradient-to-t from-${styles.servicePanel} to-transparent opacity-70 transition-opacity duration-300`}
+                    ></div>
 
                     {/* Title at bottom - always visible */}
                     <div className="absolute bottom-0 left-0 right-0 text-center p-6">
@@ -703,7 +787,7 @@ export default function Home() {
 
                     {/* Hover overlay - appears on hover with smooth transition */}
                     <div
-                      className={`absolute inset-0 bg-white p-8 flex flex-col items-center justify-center text-center transition-all duration-500 ease-in-out ${
+                      className={`absolute inset-0 ${styles.hoverPanel} p-8 flex flex-col items-center justify-center text-center transition-all duration-500 ease-in-out ${
                         hoveredService === index ? "opacity-100" : "opacity-0"
                       }`}
                       style={{
@@ -719,8 +803,8 @@ export default function Home() {
                           />
                         </svg>
                       </div>
-                      <h3 className="font-luxury text-xl font-normal text-[#3c3c3c] mb-2">{service.name}</h3>
-                      <p className="text-[#666666] mb-4 font-luxury text-sm">{service.description}</p>
+                      <h3 className={`font-luxury text-xl font-normal ${styles.text} mb-2`}>{service.name}</h3>
+                      <p className={`${styles.subText} mb-4 font-luxury text-sm`}>{service.description}</p>
                       <button
                         onClick={() => setSelectedService(index)}
                         className="inline-flex items-center justify-center px-5 py-1.5 text-sm border border-[#8ca889] text-[#8ca889] rounded-full hover:bg-[#8ca889] hover:text-white transition-colors font-luxury"
@@ -736,17 +820,17 @@ export default function Home() {
         </section>
 
         {/* Packages Section */}
-        <section ref={packagesRef} className="py-20 bg-white md:py-28">
+        <section ref={packagesRef} className={`py-20 ${styles.packages} md:py-28`}>
           <div className="container px-4 mx-auto">
             <div className="text-center mb-16">
               <h3 className="mb-4 text-sm font-normal tracking-widest uppercase text-[#8ca889] font-luxury">
                 SPA PACKAGES
               </h3>
-              <h2 className="mb-6 font-luxury text-4xl font-normal text-[#3c3c3c] md:text-5xl">
+              <h2 className={`mb-6 font-luxury text-4xl font-normal ${styles.text} md:text-5xl`}>
                 Curated Experiences <br />
                 for Ultimate Relaxation
               </h2>
-              <p className="mx-auto mb-10 text-lg text-[#666666] max-w-2xl font-luxury">
+              <p className={`mx-auto mb-10 text-lg ${styles.subText} max-w-2xl font-luxury`}>
                 Choose from our carefully designed packages that combine our most popular treatments for a complete spa
                 journey that will leave you feeling renewed and refreshed.
               </p>
@@ -754,18 +838,13 @@ export default function Home() {
 
             <div className="grid gap-8 md:grid-cols-3">
               {/* Package 1 */}
-              <div className="overflow-hidden bg-[#f9f5f0] rounded-lg shadow-sm">
+              <div className={`overflow-hidden ${styles.packageCard} rounded-lg shadow-sm`}>
                 <div className="relative h-48">
-                  <Image
-                    src="/images/1.png"
-                    alt="Essential Relaxation Package"
-                    fill
-                    className=""
-                  />
+                  <Image src="/images/1.png" alt="Essential Relaxation Package" fill className="" />
                 </div>
                 <div className="p-8">
-                  <h3 className="mb-3 font-luxury text-2xl font-normal text-[#3c3c3c]">Essential Relaxation</h3>
-                  <p className="mb-4 text-[#666666] font-luxury">
+                  <h3 className={`mb-3 font-luxury text-2xl font-normal ${styles.text}`}>Essential Relaxation</h3>
+                  <p className={`mb-4 ${styles.subText} font-luxury`}>
                     A perfect introduction to our spa with a 60-minute massage and express facial.
                   </p>
                   <div className="flex justify-between items-center">
@@ -781,18 +860,13 @@ export default function Home() {
               </div>
 
               {/* Package 2 */}
-              <div className="overflow-hidden bg-[#f9f5f0] rounded-lg shadow-sm">
+              <div className={`overflow-hidden ${styles.packageCard} rounded-lg shadow-sm`}>
                 <div className="relative h-48">
-                  <Image
-                    src="/images/2.png"
-                    alt="Deluxe Wellness Package"
-                    fill
-                    className="object-cover"
-                  />
+                  <Image src="/images/2.png" alt="Deluxe Wellness Package" fill className="object-cover" />
                 </div>
                 <div className="p-8">
-                  <h3 className="mb-3 font-luxury text-2xl font-normal text-[#3c3c3c]">Deluxe Wellness</h3>
-                  <p className="mb-4 text-[#666666] font-luxury">
+                  <h3 className={`mb-3 font-luxury text-2xl font-normal ${styles.text}`}>Deluxe Wellness</h3>
+                  <p className={`mb-4 ${styles.subText} font-luxury`}>
                     Our signature package includes a full-body scrub, massage, and hydrating facial.
                   </p>
                   <div className="flex justify-between items-center">
@@ -808,18 +882,13 @@ export default function Home() {
               </div>
 
               {/* Package 3 */}
-              <div className="overflow-hidden bg-[#f9f5f0] rounded-lg shadow-sm">
+              <div className={`overflow-hidden ${styles.packageCard} rounded-lg shadow-sm`}>
                 <div className="relative h-48">
-                  <Image
-                    src="/images/3.png"
-                    alt="Ultimate Escape Package"
-                    fill
-                    className="object-cover"
-                  />
+                  <Image src="/images/3.png" alt="Ultimate Escape Package" fill className="object-cover" />
                 </div>
                 <div className="p-8">
-                  <h3 className="mb-3 font-luxury text-2xl font-normal text-[#3c3c3c]">Ultimate Escape</h3>
-                  <p className="mb-4 text-[#666666] font-luxury">
+                  <h3 className={`mb-3 font-luxury text-2xl font-normal ${styles.text}`}>Ultimate Escape</h3>
+                  <p className={`mb-4 ${styles.subText} font-luxury`}>
                     A full day of pampering with all our premium treatments and a gourmet lunch.
                   </p>
                   <div className="flex justify-between items-center">
@@ -838,17 +907,17 @@ export default function Home() {
         </section>
 
         {/* Testimonials Section - Styled with neumorphic design */}
-        <section ref={testimonialRef} className="py-20 bg-[#f4f0e8] md:py-28">
+        <section ref={testimonialRef} className={`py-20 ${styles.testimonials} md:py-28`}>
           <div className="container px-4 mx-auto">
             <div className="max-w-6xl mx-auto p-10 md:p-16">
               <div className="text-center mb-16">
                 <h3 className="mb-4 text-sm font-normal tracking-widest uppercase text-[#8ca889] font-luxury">
                   TESTIMONIALS
                 </h3>
-                <h2 className="mb-6 font-luxury text-4xl font-normal text-[#3c3c3c] md:text-5xl">
+                <h2 className={`mb-6 font-luxury text-4xl font-normal ${styles.text} md:text-5xl`}>
                   What Our Customers Say
                 </h2>
-                <p className="mx-auto text-base text-[#666666] max-w-2xl font-luxury">
+                <p className={`mx-auto text-base ${styles.subText} max-w-2xl font-luxury`}>
                   Discover what our clients have to say about their transformative experiences at Aravē. Our commitment
                   to excellence is reflected in every testimonial.
                 </p>
@@ -866,10 +935,14 @@ export default function Home() {
                           className="object-cover"
                         />
                       </div>
-                      <div className="bg-white p-8 rounded-[24px] shadow-[0_10px_30px_rgba(0,0,0,0.08)] -mt-10 pt-12 text-center">
-                        <p className="mb-6 text-[#666666] font-luxury">{testimonial.text}</p>
+                      <div
+                        className={`${styles.testimonialCard} p-8 rounded-[24px] shadow-[0_10px_30px_rgba(0,0,0,0.08)] -mt-10 pt-12 text-center`}
+                      >
+                        <p className={`mb-6 ${styles.subText} font-luxury`}>{testimonial.text}</p>
                         <h4 className="font-luxury text-xl font-medium text-[#8ca889]">{testimonial.name}</h4>
-                        <p className="text-sm text-[#999999] font-luxury">{testimonial.role}</p>
+                        <p className={`text-sm ${isLightTheme ? "text-[#999999]" : "text-gray-500"} font-luxury`}>
+                          {testimonial.role}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -897,12 +970,14 @@ export default function Home() {
         </section>
 
         {/* Gallery Section - Perfect Square container with uneven images */}
-        <section ref={galleryRef} className="py-20 md:py-28 bg-white">
+        <section ref={galleryRef} className={`py-20 md:py-28 ${styles.gallery}`}>
           <div className="container px-4 mx-auto">
             <div className="text-center mb-16">
               <h3 className="mb-4 text-sm font-normal tracking-widest uppercase text-[#8ca889] font-luxury">GALLERY</h3>
-              <h2 className="mb-6 font-luxury text-4xl font-normal text-[#3c3c3c] md:text-5xl">Glimpses of Serenity</h2>
-              <p className="mx-auto mb-10 text-lg text-[#666666] max-w-2xl font-luxury">
+              <h2 className={`mb-6 font-luxury text-4xl font-normal ${styles.text} md:text-5xl`}>
+                Glimpses of Serenity
+              </h2>
+              <p className={`mx-auto mb-10 text-lg ${styles.subText} max-w-2xl font-luxury`}>
                 Explore our tranquil spaces and experience the ambiance that awaits you at Aravē.
               </p>
             </div>
@@ -918,7 +993,9 @@ export default function Home() {
                     fill
                     className="object-cover transition-transform duration-500 hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-[#3c3c3c]/30 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <div
+                    className={`absolute inset-0 ${isLightTheme ? "bg-[#3c3c3c]/30" : "bg-[#1e1e1e]/30"} opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center`}
+                  >
                     <div className="p-4 text-center">
                       <h4 className="text-white font-luxury text-xl">Experience 1: Tranquil Waters</h4>
                     </div>
@@ -933,7 +1010,9 @@ export default function Home() {
                     fill
                     className="object-cover transition-transform duration-500 hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-[#3c3c3c]/30 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <div
+                    className={`absolute inset-0 ${isLightTheme ? "bg-[#3c3c3c]/30" : "bg-[#1e1e1e]/30"} opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center`}
+                  >
                     <div className="p-4 text-center">
                       <h4 className="text-white font-luxury text-xl">Experience 2: Botanical Bliss</h4>
                     </div>
@@ -948,7 +1027,9 @@ export default function Home() {
                     fill
                     className="object-cover transition-transform duration-500 hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-[#3c3c3c]/30 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <div
+                    className={`absolute inset-0 ${isLightTheme ? "bg-[#3c3c3c]/30" : "bg-[#1e1e1e]/30"} opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center`}
+                  >
                     <div className="p-4 text-center">
                       <h4 className="text-white font-luxury text-xl">Experience 3: Aromatic Journey</h4>
                     </div>
@@ -963,7 +1044,9 @@ export default function Home() {
                     fill
                     className="object-cover transition-transform duration-500 hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-[#3c3c3c]/30 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <div
+                    className={`absolute inset-0 ${isLightTheme ? "bg-[#3c3c3c]/30" : "bg-[#1e1e1e]/30"} opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center`}
+                  >
                     <div className="p-4 text-center">
                       <h4 className="text-white font-luxury text-xl">Experience 4: Stone Therapy</h4>
                     </div>
@@ -978,7 +1061,9 @@ export default function Home() {
                     fill
                     className="object-cover transition-transform duration-500 hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-[#3c3c3c]/30 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <div
+                    className={`absolute inset-0 ${isLightTheme ? "bg-[#3c3c3c]/30" : "bg-[#1e1e1e]/30"} opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center`}
+                  >
                     <div className="p-4 text-center">
                       <h4 className="text-white font-luxury text-xl">Experience 5: Herbal Infusion</h4>
                     </div>
@@ -993,7 +1078,9 @@ export default function Home() {
                     fill
                     className="object-cover transition-transform duration-500 hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-[#3c3c3c]/30 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <div
+                    className={`absolute inset-0 ${isLightTheme ? "bg-[#3c3c3c]/30" : "bg-[#1e1e1e]/30"} opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center`}
+                  >
                     <div className="p-4 text-center">
                       <h4 className="text-white font-luxury text-xl">Experience 6: Mineral Soak</h4>
                     </div>
@@ -1008,7 +1095,9 @@ export default function Home() {
                     fill
                     className="object-cover transition-transform duration-500 hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-[#3c3c3c]/30 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <div
+                    className={`absolute inset-0 ${isLightTheme ? "bg-[#3c3c3c]/30" : "bg-[#1e1e1e]/30"} opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center`}
+                  >
                     <div className="p-4 text-center">
                       <h4 className="text-white font-luxury text-xl">Experience 7: Floral Essence</h4>
                     </div>
@@ -1023,7 +1112,9 @@ export default function Home() {
                     fill
                     className="object-cover transition-transform duration-500 hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-[#3c3c3c]/30 opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <div
+                    className={`absolute inset-0 ${isLightTheme ? "bg-[#3c3c3c]/30" : "bg-[#1e1e1e]/30"} opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center`}
+                  >
                     <div className="p-4 text-center">
                       <h4 className="text-white font-luxury text-xl">Experience 8: Crystal Healing</h4>
                     </div>
@@ -1051,20 +1142,20 @@ export default function Home() {
         </section>
 
         {/* Elegant Booking Section */}
-        <section ref={bookingRef} className="py-16 bg-[#f4f0e8] md:py-20">
+        <section ref={bookingRef} className={`py-16 ${styles.booking} md:py-20`}>
           <div className="container px-4 mx-auto">
             <div className="text-center mb-12">
               <h3 className="section-subtitle">BOOK AN APPOINTMENT</h3>
-              <h2 className="section-title mb-4">
-                Reserve Your Spa Experience
-              </h2>
-              <p className="mx-auto mb-8 text-lg text-[#666666] max-w-2xl font-elegant">
+              <h2 className="section-title mb-4">Reserve Your Spa Experience</h2>
+              <p className={`mx-auto mb-8 text-lg ${styles.subText} max-w-2xl font-elegant`}>
                 Take the first step toward relaxation and rejuvenation by booking your appointment with us today.
               </p>
             </div>
 
             <div className="max-w-4xl mx-auto">
-              <div className="relative overflow-hidden bg-[#f9f5f0] rounded-[20px] md:rounded-[30px] shadow-[0_20px_60px_rgba(140,168,137,0.1)]">
+              <div
+                className={`relative overflow-hidden ${styles.bookingCard} rounded-[20px] md:rounded-[30px] shadow-[0_20px_60px_rgba(140,168,137,0.1)]`}
+              >
                 {/* Decorative elements */}
                 <div className="absolute top-0 right-0 w-64 h-64 bg-[#8ca889]/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
                 <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#8ca889]/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
@@ -1074,8 +1165,10 @@ export default function Home() {
                     {/* Left side - Form */}
                     <div>
                       {bookingService && (
-                        <div className="mb-6 p-3 bg-white/80 backdrop-blur-sm rounded-xl border border-[#8ca889]/20">
-                          <p className="text-[#3c3c3c] font-elegant text-center">
+                        <div
+                          className={`mb-6 p-3 ${styles.inputBg} backdrop-blur-sm rounded-xl border border-[#8ca889]/20`}
+                        >
+                          <p className={`${styles.text} font-elegant text-center`}>
                             You're booking: <span className="font-medium text-[#8ca889]">{bookingService}</span>
                           </p>
                         </div>
@@ -1089,7 +1182,7 @@ export default function Home() {
                               type="text"
                               name="name"
                               required
-                              className="w-full pl-10 pr-4 py-3 bg-white/80 backdrop-blur-sm border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8ca889] font-elegant placeholder:text-[#3c3c3c]/50"
+                              className={`w-full pl-10 pr-4 py-3 ${styles.inputBg} backdrop-blur-sm border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8ca889] font-elegant placeholder:${isLightTheme ? "text-[#3c3c3c]/50" : "text-gray-300"} ${styles.text}`}
                               placeholder="Your Name"
                             />
                             <div className="absolute inset-y-0 left-0 flex items-center pl-3">
@@ -1103,7 +1196,7 @@ export default function Home() {
                               type="email"
                               name="email"
                               required
-                              className="w-full pl-10 pr-4 py-3 bg-white/80 backdrop-blur-sm border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8ca889] font-elegant placeholder:text-[#3c3c3c]/50"
+                              className={`w-full pl-10 pr-4 py-3 ${styles.inputBg} backdrop-blur-sm border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8ca889] font-elegant placeholder:${isLightTheme ? "text-[#3c3c3c]/50" : "text-gray-300"} ${styles.text}`}
                               placeholder="Your Email"
                             />
                             <div className="absolute inset-y-0 left-0 flex items-center pl-3">
@@ -1117,7 +1210,7 @@ export default function Home() {
                               type="tel"
                               name="phone"
                               required
-                              className="w-full pl-10 pr-4 py-3 bg-white/80 backdrop-blur-sm border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8ca889] font-elegant placeholder:text-[#3c3c3c]/50"
+                              className={`w-full pl-10 pr-4 py-3 ${styles.inputBg} backdrop-blur-sm border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8ca889] font-elegant placeholder:${isLightTheme ? "text-[#3c3c3c]/50" : "text-gray-300"} ${styles.text}`}
                               placeholder="Your Phone"
                             />
                             <div className="absolute inset-y-0 left-0 flex items-center pl-3">
@@ -1132,7 +1225,7 @@ export default function Home() {
                               name="service"
                               onChange={(e) => setBookingService(e.target.value)}
                               required
-                              className="w-full pl-4 pr-4 py-3 bg-white/80 backdrop-blur-sm border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8ca889] font-elegant text-[#3c3c3c]/80 appearance-none"
+                              className={`w-full pl-4 pr-4 py-3 ${styles.inputBg} backdrop-blur-sm border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#8ca889] font-elegant ${isLightTheme ? "text-[#3c3c3c]/80" : "text-gray-300"} appearance-none`}
                             >
                               <option value="">Select a Service</option>
                               {services.map((service) => (
@@ -1150,8 +1243,12 @@ export default function Home() {
                           <div className="grid grid-cols-2 gap-3">
                             {/* Date Picker */}
                             <div className="relative">
-                              <div className="mb-1 font-elegant text-[#3c3c3c] text-sm">Select Date</div>
-                              <div className="bg-white/80 backdrop-blur-sm rounded-lg p-2">
+                              <div
+                                className={`mb-1 font-elegant ${isLightTheme ? "text-[#3c3c3c]" : "text-gray-300"} text-sm`}
+                              >
+                                Select Date
+                              </div>
+                              <div className={`${styles.inputBg} backdrop-blur-sm rounded-lg p-2`}>
                                 <div className="grid grid-cols-5 gap-1">
                                   {[20, 21, 22, 23, 24].map((date, i) => {
                                     const dateStr = `2024-05-${date}`
@@ -1165,9 +1262,7 @@ export default function Home() {
                                           setSelectedTime("")
                                         }}
                                         className={`py-1 rounded-md font-elegant text-xs transition-colors ${
-                                          isSelected
-                                            ? "bg-[#8ca889] text-white"
-                                            : "bg-white hover:bg-[#8ca889]/10 text-[#3c3c3c]"
+                                          isSelected ? "bg-[#8ca889] text-white" : styles.timeButton
                                         }`}
                                       >
                                         {date}
@@ -1180,8 +1275,12 @@ export default function Home() {
 
                             {/* Time Slots */}
                             <div className="relative">
-                              <div className="mb-1 font-elegant text-[#3c3c3c] text-sm">Select Time</div>
-                              <div className="bg-white/80 backdrop-blur-sm rounded-lg p-2">
+                              <div
+                                className={`mb-1 font-elegant ${isLightTheme ? "text-[#3c3c3c]" : "text-gray-300"} text-sm`}
+                              >
+                                Select Time
+                              </div>
+                              <div className={`${styles.inputBg} backdrop-blur-sm rounded-lg p-2`}>
                                 <div className="grid grid-cols-3 gap-1">
                                   {timeSlots.slice(0, 6).map((time, i) => {
                                     const isBooked = isTimeSlotBooked(selectedDate, time)
@@ -1194,10 +1293,12 @@ export default function Home() {
                                         onClick={() => !isBooked && setSelectedTime(time)}
                                         className={`py-1 rounded-md font-elegant text-xs transition-colors ${
                                           isBooked
-                                            ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                            ? isLightTheme
+                                              ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                              : "bg-gray-700 text-gray-500 cursor-not-allowed"
                                             : isSelected
                                               ? "bg-[#8ca889] text-white"
-                                              : "bg-white hover:bg-[#8ca889]/10 text-[#3c3c3c]"
+                                              : styles.timeButton
                                         }`}
                                       >
                                         {time}
@@ -1225,16 +1326,13 @@ export default function Home() {
                       <div className="relative h-full">
                         <div className="absolute inset-0 flex items-center justify-center">
                           <div className="relative w-full h-full overflow-hidden rounded-xl">
-                            <Image
-                              src="/images/tranquill.png"
-                              alt="Spa relaxation"
-                              fill
-                              className="object-cover"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#3c3c3c]/70 to-transparent opacity-50"></div>
+                            <Image src="/images/tranquill.png" alt="Spa relaxation" fill className="object-cover" />
+                            <div
+                              className={`absolute inset-0 bg-gradient-to-t from-${styles.servicePanel} to-transparent opacity-50`}
+                            ></div>
                             <div className="absolute inset-0 flex flex-col items-center justify-end p-8 text-center">
                               <h3 className="mb-2 font-cursive text-3xl font-normal text-white">Tranquility Awaits</h3>
-                              <p className="text-white/90 font-elegant">
+                              <p className={`${isLightTheme ? "text-white/90" : "text-gray-300"} font-elegant`}>
                                 Experience the perfect blend of ancient wisdom and modern luxury
                               </p>
                             </div>
@@ -1251,14 +1349,15 @@ export default function Home() {
       </main>
 
       {/* Elegant Footer */}
-      <footer className="bg-[#3c3c3c] text-white py-10">
+      <footer className={`${styles.footer} text-white py-10`}>
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             {/* Top section with logo and social links */}
             <div className="flex flex-col md:flex-row justify-between items-center mb-8 border-b border-white/10 pb-8">
               <div className="mb-6 md:mb-0">
                 <Link href="/" className="font-cursive text-3xl tracking-wide">
-                  <span className="text-[#8ca889]">Ara</span><span className="text-gray-200">vē</span>
+                  <span className="text-[#8ca889]">Ara</span>
+                  <span className="text-gray-200">vē</span>
                 </Link>
               </div>
 
@@ -1453,7 +1552,7 @@ export default function Home() {
           onClick={() => setSelectedService(null)}
         >
           <div
-            className="relative w-full max-w-4xl bg-white rounded-2xl shadow-xl overflow-hidden animate-in fade-in zoom-in duration-300"
+            className={`relative w-full max-w-4xl ${isLightTheme ? "bg-white" : "bg-[#2c2c2c]"} rounded-2xl shadow-xl overflow-hidden animate-in fade-in zoom-in duration-300`}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close button */}
@@ -1477,21 +1576,31 @@ export default function Home() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
 
                 {/* Duration + Price Card */}
-                <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-xl shadow-md flex items-center gap-4">
+                <div
+                  className={`absolute bottom-4 left-4 ${isLightTheme ? "bg-white/90" : "bg-white/10"} backdrop-blur-sm px-4 py-2 rounded-xl shadow-md flex items-center gap-4`}
+                >
                   <div className="flex flex-col">
-                    <span className="text-[13px] font-medium text-[#7a9677] uppercase tracking-wide font-elegant">
+                    <span
+                      className={`text-[13px] font-medium ${isLightTheme ? "text-[#7a9677]" : "text-[#a9c7a6]"} uppercase tracking-wide font-elegant`}
+                    >
                       Duration
                     </span>
-                    <span className="text-sm font-semibold text-[#3c3c3c] font-elegant">
+                    <span
+                      className={`text-sm font-semibold ${isLightTheme ? "text-[#3c3c3c]" : "text-white"} font-elegant`}
+                    >
                       {services[selectedService].duration}
                     </span>
                   </div>
-                  <div className="w-px h-10 bg-gray-200" />
+                  <div className={`w-px h-10 ${isLightTheme ? "bg-gray-200" : "bg-gray-500"}`} />
                   <div className="flex flex-col">
-                    <span className="text-[13px] font-medium text-[#7a9677] uppercase tracking-wide font-elegant">
+                    <span
+                      className={`text-[13px] font-medium ${isLightTheme ? "text-[#7a9677]" : "text-[#a9c7a6]"} uppercase tracking-wide font-elegant`}
+                    >
                       Price
                     </span>
-                    <span className="text-base font-bold text-[#3c3c3c] font-elegant">
+                    <span
+                      className={`text-base font-bold ${isLightTheme ? "text-[#3c3c3c]" : "text-white"} font-elegant`}
+                    >
                       {services[selectedService].price}
                     </span>
                   </div>
@@ -1506,7 +1615,9 @@ export default function Home() {
                 </h3>
 
                 {/* Description */}
-                <p className="text-gray-600 text-sm font-elegant mb-4 leading-relaxed">
+                <p
+                  className={`${isLightTheme ? "text-gray-600" : "text-gray-300"} text-sm font-elegant mb-4 leading-relaxed`}
+                >
                   {services[selectedService].description}
                 </p>
 
@@ -1514,14 +1625,12 @@ export default function Home() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-4">
                   {/* Benefits */}
                   <div>
-                    <h4 className="text-base font-semibold text-[#3c3c3c] mb-2 font-luxury">
-                      Benefits
-                    </h4>
+                    <h4 className={`text-base font-semibold ${styles.text} mb-2 font-luxury`}>Benefits</h4>
                     <ul className="space-y-2">
                       {services[selectedService].benefits.map((benefit, index) => (
                         <li key={index} className="flex items-start">
                           <div className="w-3 h-3 mt-1 mr-2 bg-[#8ca889] rounded-sm flex-shrink-0" />
-                          <span className="text-gray-600 text-sm font-elegant">
+                          <span className={`${isLightTheme ? "text-gray-600" : "text-gray-300"} text-sm font-elegant`}>
                             {benefit}
                           </span>
                         </li>
@@ -1531,14 +1640,12 @@ export default function Home() {
 
                   {/* What's Included */}
                   <div>
-                    <h4 className="text-base font-semibold text-[#3c3c3c] mb-2 font-luxury">
-                      What's Included
-                    </h4>
+                    <h4 className={`text-base font-semibold ${styles.text} mb-2 font-luxury`}>What's Included</h4>
                     <ul className="space-y-2">
                       {services[selectedService].includes.map((item, index) => (
                         <li key={index} className="flex items-start">
                           <div className="w-3 h-3 mt-1 mr-2 bg-[#8ca889] rounded-sm flex-shrink-0" />
-                          <span className="text-gray-600 text-sm font-elegant">
+                          <span className={`${isLightTheme ? "text-gray-600" : "text-gray-300"} text-sm font-elegant`}>
                             {item}
                           </span>
                         </li>
@@ -1569,31 +1676,37 @@ export default function Home() {
       {/* Booking Confirmation Modal */}
       {showConfirmation && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-          <div className="relative w-full max-w-md bg-white rounded-[32px] shadow-[0_20px_60px_rgba(0,0,0,0.1)] p-8 animate-in fade-in zoom-in duration-300">
+          <div
+            className={`relative w-full max-w-md ${styles.confirmationCard} rounded-[32px] shadow-[0_20px_60px_rgba(140,168,137,0.1)] p-8 animate-in fade-in zoom-in duration-300`}
+          >
             <button
               onClick={() => setShowConfirmation(false)}
-              className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-[#f9f5f0] hover:bg-[#8ca889]/10 transition-colors"
+              className={`absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full ${isLightTheme ? "bg-[#f9f5f0]" : "bg-[#3c3c3c]"} hover:bg-[#8ca889]/10 transition-colors`}
             >
-              <X className="w-4 h-4 text-[#3c3c3c]" />
+              <X className={`w-4 h-4 ${isLightTheme ? "text-[#3c3c3c]" : "text-white"}`} />
             </button>
 
             <div className="text-center mb-6">
               <div className="w-16 h-16 bg-[#8ca889]/10 rounded-full flex items-center justify-center mx-auto mb-4">
                 <CheckCircle className="w-8 h-8 text-[#8ca889]" />
               </div>
-              <h3 className="font-luxury text-2xl font-normal text-[#3c3c3c] mb-2">Booking Confirmed</h3>
-              <p className="text-[#666666] font-elegant">Your spa experience has been scheduled successfully.</p>
+              <h3 className={`font-luxury text-2xl font-normal ${styles.text} mb-2`}>Booking Confirmed</h3>
+              <p className={`${styles.subText} font-elegant`}>Your spa experience has been scheduled successfully.</p>
             </div>
 
-            <div className="bg-[#f9f5f0] rounded-xl p-4 mb-6">
+            <div className={`${styles.infoPanel} rounded-xl p-4 mb-6`}>
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span className="text-[#666666] font-elegant text-sm">Service:</span>
-                  <span className="text-[#3c3c3c] font-elegant font-medium">{bookingDetails.service}</span>
+                  <span className={`${isLightTheme ? "text-[#666666]" : "text-gray-300"} font-elegant text-sm`}>
+                    Service:
+                  </span>
+                  <span className={`${styles.text} font-elegant font-medium`}>{bookingDetails.service}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#666666] font-elegant text-sm">Date:</span>
-                  <span className="text-[#3c3c3c] font-elegant font-medium">
+                  <span className={`${isLightTheme ? "text-[#666666]" : "text-gray-300"} font-elegant text-sm`}>
+                    Date:
+                  </span>
+                  <span className={`${styles.text} font-elegant font-medium`}>
                     {bookingDetails.date
                       ? new Date(bookingDetails.date).toLocaleDateString("en-US", {
                           weekday: "short",
@@ -1604,17 +1717,21 @@ export default function Home() {
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#666666] font-elegant text-sm">Time:</span>
-                  <span className="text-[#3c3c3c] font-elegant font-medium">{bookingDetails.time}</span>
+                  <span className={`${isLightTheme ? "text-[#666666]" : "text-gray-300"} font-elegant text-sm`}>
+                    Time:
+                  </span>
+                  <span className={`${styles.text} font-elegant font-medium`}>{bookingDetails.time}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[#666666] font-elegant text-sm">Name:</span>
-                  <span className="text-[#3c3c3c] font-elegant font-medium">{bookingDetails.name}</span>
+                  <span className={`${isLightTheme ? "text-[#666666]" : "text-gray-300"} font-elegant text-sm`}>
+                    Name:
+                  </span>
+                  <span className={`${styles.text} font-elegant font-medium`}>{bookingDetails.name}</span>
                 </div>
               </div>
             </div>
 
-            <p className="text-[#666666] font-elegant text-sm text-center mb-6">
+            <p className={`${isLightTheme ? "text-[#666666]" : "text-gray-300"} font-elegant text-sm text-center mb-6`}>
               A confirmation email has been sent to {bookingDetails.email}. Please arrive 15 minutes before your
               appointment.
             </p>
