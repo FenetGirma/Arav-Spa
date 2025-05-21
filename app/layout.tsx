@@ -41,7 +41,7 @@ const cormorant = Cormorant_Garamond({
 })
 
 export const metadata: Metadata = {
-  title: "Aravē Spa | Luxury Wellness & Beauty",
+  title: "Aravē Spa | Wellness & Beauty",
   description: "Experience luxury spa treatments and premium beauty products for your wellbeing at Aravē Spa",
   openGraph: {
     title: "Aravē Spa | Wellness & Beauty",
