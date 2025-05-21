@@ -4,7 +4,7 @@ import type React from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { useRef, useState, useEffect } from "react"
-import { Menu, ChevronLeft, ChevronRight, User, Mail, Phone, X, CheckCircle } from 'lucide-react'
+import { Menu, ChevronLeft, ChevronRight, User, Mail, Phone, X, CheckCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { useMobile } from "@/hooks/use-mobile"
@@ -257,7 +257,7 @@ export default function Home() {
     <div className="min-h-screen bg-[#f9f5f0] font-luxury">
       {/* Elegant Header with Creative Navigation */}
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
           scrolled ? "bg-[#f9f5f0]/95 backdrop-blur-sm shadow-sm py-2" : "bg-transparent py-4"
         }`}
       >
@@ -284,7 +284,7 @@ export default function Home() {
                   <Menu className="w-6 h-6" />
                 </Button>
               </SheetTrigger>
-              <SheetContent className="bg-white/95 backdrop-blur-sm">
+              <SheetContent className="bg-white/95 backdrop-blur-sm w-[280px]">
                 <div className="flex items-center space-x-3 mb-8">
                   <div className="relative h-12 w-12">
                     <Image
@@ -351,6 +351,12 @@ export default function Home() {
                   >
                     Gallery
                   </Link>
+                  <Button
+                    onClick={() => handleBookNow()}
+                    className="mt-4 w-full bg-[#8ca889] hover:bg-[#7a9677] text-white font-elegant"
+                  >
+                    Book Now
+                  </Button>
                 </nav>
               </SheetContent>
             </Sheet>
@@ -404,23 +410,23 @@ export default function Home() {
 
       <main>
         {/* Hero Section */}
-        <section ref={homeRef} className="relative overflow-hidden bg-[#f3efe9] min-h-screen flex items-center">
-          <div className="absolute right-24 top-[80%] -translate-y-1/2 z-40">
+        <section ref={homeRef} className="relative overflow-hidden bg-[#f3efe9] min-h-screen flex items-center pt-24 md:pt-0">
+          <div className="absolute right-0 top-[80%] -translate-y-1/2 z-40 lg:right-24 hidden md:block">
       <OverlayCard />
     </div>
           <div className="container px-4 mx-auto md:py-32">
-
+          
             <div className="grid items-center lg:grid-cols-2 gap-12">
               <div className="max-w-lg">
-                <h1 className="mb-6 font-luxury text-5xl md:text-6xl lg:text-7xl font-normal tracking-tight text-[#3c3c3c]">
+                <h1 className="mb-4 md:mb-6 font-luxury text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-normal tracking-tight text-[#3c3c3c]">
                   <span className="font-cursive text-[#8ca889]">Skin</span> and <span className="font-cursive text-[#8ca889]">Soul</span> Care
                 </h1>
-                <p className="mb-8 text-lg text-[#666666] leading-relaxed max-w-md font-elegant">
+                <p className="mb-6 md:mb-8 text-base md:text-lg text-[#666666] leading-relaxed max-w-md font-elegant">
                   We believe in providing our valued clients with an elevated spa experience, and our Exclusive
                   Membership is designed to offer you a host of special privileges and benefits.
                 </p>
                 <Button
-                  className="px-8 py-6 text-base bg-[#8ca889] hover:bg-[#7a9677] text-white font-elegant"
+                  className="px-6 py-4 md:px-8 md:py-6 text-sm md:text-base bg-[#8ca889] hover:bg-[#7a9677] text-white font-elegant"
                   onClick={() => handleBookNow()}
                 >
                   Book Now
@@ -433,16 +439,11 @@ export default function Home() {
                     src="/images/headers.png"
                     alt="Spa products and treatments"
                     fill
-                    className="object-fill" style={{ objectFit:"scale-down" }}
+                    className="object-contain"
                   />
-                  {/* Overlay Card */}
-               
-
-     
-   
-    </div>
                 </div>
               </div>
+            </div>
             </div>
           
 
@@ -503,9 +504,9 @@ export default function Home() {
             <div className="relative">
               <div className="grid grid-cols-1 gap-6 pt-10 md:grid-cols-2 lg:grid-cols-4">
                 {/* Branch In World */}
-                <div className="flex flex-col items-center p-8 border border-[#e5e0d8] rounded-[40px] bg-white/80 backdrop-blur-sm shadow-sm hover:shadow-md transition-all">
+                <div className="flex flex-col items-center p-4 md:p-8 border border-[#e5e0d8] rounded-[40px] bg-white/80 backdrop-blur-sm shadow-sm hover:shadow-md transition-all">
                   <div className="mb-2">
-                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="24" height="24" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" className="md:w-[30px] md:h-[30px]">
                       <path
                         d="M15 5C15 7.76142 12.7614 10 10 10C7.23858 10 5 7.76142 5 5C5 2.23858 7.23858 0 10 0C12.7614 0 15 2.23858 15 5Z"
                         fill="#8ca889"
@@ -516,16 +517,16 @@ export default function Home() {
                       />
                     </svg>
                   </div>
-                  <p className="mb-1 text-sm text-[#8ca889] font-elegant">Branch In World</p>
-                  <p className="text-5xl font-luxury text-[#8ca889]">
-                    120<span className="text-3xl">+</span>
+                  <p className="mb-1 text-xs md:text-sm text-[#8ca889] font-elegant">Branch In World</p>
+                  <p className="text-3xl md:text-5xl font-luxury text-[#8ca889]">
+                    120<span className="text-xl md:text-3xl">+</span>
                   </p>
                 </div>
 
                 {/* Satisfied Customers */}
-                <div className="flex flex-col items-center p-8 border border-[#e5e0d8] rounded-[40px] bg-white/80 backdrop-blur-sm shadow-sm hover:shadow-md transition-all">
+                <div className="flex flex-col items-center p-4 md:p-8 border border-[#e5e0d8] rounded-[40px] bg-white/80 backdrop-blur-sm shadow-sm hover:shadow-md transition-all">
                   <div className="mb-2">
-                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="24" height="24" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" className="md:w-[30px] md:h-[30px]">
                       <path
                         d="M15 5C15 7.76142 12.7614 10 10 10C7.23858 10 5 7.76142 5 5C5 2.23858 7.23858 0 10 0C12.7614 0 15 2.23858 15 5Z"
                         fill="#8ca889"
@@ -536,41 +537,41 @@ export default function Home() {
                       />
                     </svg>
                   </div>
-                  <p className="mb-1 text-sm text-[#8ca889] font-elegant">Satisfied Customers</p>
-                  <p className="text-5xl font-luxury text-[#8ca889]">
-                    70K<span className="text-3xl">+</span>
+                  <p className="mb-1 text-xs md:text-sm text-[#8ca889] font-elegant">Satisfied Customers</p>
+                  <p className="text-3xl md:text-5xl font-luxury text-[#8ca889]">
+                    70K<span className="text-xl md:text-3xl">+</span>
                   </p>
                 </div>
 
                 {/* Personal Staff */}
-                <div className="flex flex-col items-center p-8 border border-[#e5e0d8] rounded-[40px] bg-white/80 backdrop-blur-sm shadow-sm hover:shadow-md transition-all">
+                <div className="flex flex-col items-center p-4 md:p-8 border border-[#e5e0d8] rounded-[40px] bg-white/80 backdrop-blur-sm shadow-sm hover:shadow-md transition-all">
                   <div className="mb-2">
-                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="24" height="24" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" className="md:w-[30px] md:h-[30px]">
                       <path
                         d="M15 0C15 10 20 15 30 15C20 15 15 20 15 30C15 20 10 15 0 15C10 15 15 10 15 0Z"
                         fill="#8ca889"
                       />
                     </svg>
                   </div>
-                  <p className="mb-1 text-sm text-[#8ca889] font-elegant">Personal Staff</p>
-                  <p className="text-5xl font-luxury text-[#8ca889]">
-                    40<span className="text-3xl">+</span>
+                  <p className="mb-1 text-xs md:text-sm text-[#8ca889] font-elegant">Personal Staff</p>
+                  <p className="text-3xl md:text-5xl font-luxury text-[#8ca889]">
+                    40<span className="text-xl md:text-3xl">+</span>
                   </p>
                 </div>
 
                 {/* Years Of Experience */}
-                <div className="flex flex-col items-center p-8 border border-[#e5e0d8] rounded-[40px] bg-white/80 backdrop-blur-sm shadow-sm hover:shadow-md transition-all">
+                <div className="flex flex-col items-center p-4 md:p-8 border border-[#e5e0d8] rounded-[40px] bg-white/80 backdrop-blur-sm shadow-sm hover:shadow-md transition-all">
                   <div className="mb-2">
-                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg width="24" height="24" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg" className="md:w-[30px] md:h-[30px]">
                       <path
                         d="M15 0C15 10 20 15 30 15C20 15 15 20 15 30C15 20 10 15 0 15C10 15 15 10 15 0Z"
                         fill="#8ca889"
                       />
                     </svg>
                   </div>
-                  <p className="mb-1 text-sm text-[#8ca889] font-elegant">Years Of Experience</p>
-                  <p className="text-5xl font-luxury text-[#8ca889]">
-                    12<span className="text-3xl">+</span>
+                  <p className="mb-1 text-xs md:text-sm text-[#8ca889] font-elegant">Years Of Experience</p>
+                  <p className="text-3xl md:text-5xl font-luxury text-[#8ca889]">
+                    12<span className="text-xl md:text-3xl">+</span>
                   </p>
                 </div>
               </div>
@@ -609,7 +610,7 @@ export default function Home() {
                 <h3 className="mb-4 text-sm font-normal tracking-widest uppercase text-[#8ca889] font-luxury">
                   SERVICE
                 </h3>
-                <h2 className="mb-6 font-luxury text-5xl font-light leading-tight text-[#3c3c3c] md:text-6xl">
+                <h2 className="mb-6 font-luxury text-3xl sm:text-4xl font-light leading-tight text-[#3c3c3c] md:text-5xl">
                   We Provide the Best <br />
                   for Your Satisfaction
                 </h2>
@@ -618,29 +619,29 @@ export default function Home() {
                   Membership is designed to offer you...
                 </p>
                 <div className="grid grid-cols-2 gap-x-6 gap-y-8">
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center justify-center w-14 h-14 rounded-full bg-[#8ca889]/30">
-                      <span className="font-luxury text-xl font-normal text-[#3c3c3c]">01</span>
+                  <div className="flex items-center gap-2 md:gap-4">
+                    <div className="flex items-center justify-center w-10 h-10 md:w-14 md:h-14 rounded-full bg-[#8ca889]/30">
+                      <span className="font-luxury text-base md:text-xl font-normal text-[#3c3c3c]">01</span>
                     </div>
-                    <span className="font-luxury text-2xl font-normal text-[#3c3c3c]">Massage</span>
+                    <span className="font-luxury text-lg md:text-2xl font-normal text-[#3c3c3c]">Massage</span>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center justify-center w-14 h-14 rounded-full bg-[#8ca889]/30">
-                      <span className="font-luxury text-xl font-normal text-[#3c3c3c]">03</span>
+                  <div className="flex items-center gap-2 md:gap-4">
+                    <div className="flex items-center justify-center w-10 h-10 md:w-14 md:h-14 rounded-full bg-[#8ca889]/30">
+                      <span className="font-luxury text-base md:text-xl font-normal text-[#3c3c3c]">03</span>
                     </div>
-                    <span className="font-luxury text-2xl font-normal text-[#3c3c3c]">Relaxation</span>
+                    <span className="font-luxury text-lg md:text-2xl font-normal text-[#3c3c3c]">Relaxation</span>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center justify-center w-14 h-14 rounded-full bg-[#8ca889]/30">
-                      <span className="font-luxury text-xl font-normal text-[#3c3c3c]">02</span>
+                  <div className="flex items-center gap-2 md:gap-4">
+                    <div className="flex items-center justify-center w-10 h-10 md:w-14 md:h-14 rounded-full bg-[#8ca889]/30">
+                      <span className="font-luxury text-base md:text-xl font-normal text-[#3c3c3c]">02</span>
                     </div>
-                    <span className="font-luxury text-2xl font-normal text-[#3c3c3c]">Treatment</span>
+                    <span className="font-luxury text-lg md:text-2xl font-normal text-[#3c3c3c]">Treatment</span>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center justify-center w-14 h-14 rounded-full bg-[#8ca889]/30">
-                      <span className="font-luxury text-xl font-normal text-[#3c3c3c]">04</span>
+                  <div className="flex items-center gap-2 md:gap-4">
+                    <div className="flex items-center justify-center w-10 h-10 md:w-14 md:h-14 rounded-full bg-[#8ca889]/30">
+                      <span className="font-luxury text-base md:text-xl font-normal text-[#3c3c3c]">04</span>
                     </div>
-                    <span className="font-luxury text-2xl font-normal text-[#3c3c3c]">Sauna</span>
+                    <span className="font-luxury text-lg md:text-2xl font-normal text-[#3c3c3c]">Sauna</span>
                   </div>
                 </div>
               </div>
@@ -656,13 +657,13 @@ export default function Home() {
         </section>
 
         {/* New Services Section with Oval Images */}
-        <section className="py-20 bg-[#f4f0e8] md:py-28">
+        <section className="py-12 md:py-20 bg-[#f4f0e8] lg:py-28">
           <div className="container px-4 mx-auto">
             <div className="text-center mb-16">
               <h3 className="mb-4 text-sm font-normal tracking-widest uppercase text-[#8ca889] font-luxury">
                 OUR TREATMENTS
               </h3>
-              <h2 className="mb-6 font-luxury text-4xl font-light leading-tight text-[#3c3c3c] md:text-5xl">
+              <h2 className="mb-6 font-luxury text-3xl sm:text-4xl font-light leading-tight text-[#3c3c3c] md:text-5xl">
                 Discover Our Spa Experiences
               </h2>
               <p className="mx-auto mb-10 text-base text-[#666666] max-w-2xl leading-relaxed font-luxury">
@@ -1060,12 +1061,12 @@ export default function Home() {
             </div>
 
             <div className="max-w-4xl mx-auto">
-              <div className="relative overflow-hidden bg-[#f9f5f0] rounded-[30px] shadow-[0_20px_60px_rgba(140,168,137,0.1)]">
+              <div className="relative overflow-hidden bg-[#f9f5f0] rounded-[20px] md:rounded-[30px] shadow-[0_20px_60px_rgba(140,168,137,0.1)]">
                 {/* Decorative elements */}
                 <div className="absolute top-0 right-0 w-64 h-64 bg-[#8ca889]/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
                 <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#8ca889]/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
 
-                <div className="relative z-10 p-8 md:p-12">
+                <div className="relative z-10 p-5 md:p-8 lg:p-12">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {/* Left side - Form */}
                     <div>
