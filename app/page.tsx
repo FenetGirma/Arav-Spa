@@ -279,12 +279,12 @@ export default function Home() {
 
           {isMobile ? (
             <Sheet>
-              <SheetTrigger asChild>
+              <SheetTrigger asChild className="z-60">
                 <Button variant="ghost" size="icon" className="text-[#8ca889]">
                   <Menu className="w-6 h-6" />
                 </Button>
               </SheetTrigger>
-              <SheetContent className="bg-white/95 backdrop-blur-sm w-[280px]">
+              <SheetContent className="bg-white/95 backdrop-blur-sm w-[280px] ">
                 <div className="flex items-center space-x-3 mb-8">
                   <div className="relative h-12 w-12">
                     <Image
@@ -351,12 +351,15 @@ export default function Home() {
                   >
                     Gallery
                   </Link>
-                  <Button
+                  <div className="flex items-center justify-center">
+                    <Button
                     onClick={() => handleBookNow()}
-                    className="mt-4 w-full bg-[#8ca889] hover:bg-[#7a9677] text-white font-elegant"
+                    className="mt-4 w-full bg-[#8ca889] hover:bg-[#7a9677] text-white font-elegant items-end"
                   >
                     Book Now
                   </Button>
+                  </div>
+                  
                 </nav>
               </SheetContent>
             </Sheet>
@@ -414,7 +417,7 @@ export default function Home() {
           <div className="absolute right-0 top-[80%] -translate-y-1/2 z-40 lg:right-24 hidden md:block">
       <OverlayCard />
     </div>
-          <div className="container px-4 mx-auto md:py-32">
+          <div className="container px-4 mx-auto md:py-24">
           
             <div className="grid items-center lg:grid-cols-2 gap-12">
               <div className="max-w-lg">
