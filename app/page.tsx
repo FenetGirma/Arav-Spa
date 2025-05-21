@@ -463,7 +463,7 @@ export default function Home() {
           </div>
           <div className="container px-4 mx-auto md:py-24">
             <div className="grid items-center lg:grid-cols-2 gap-12">
-              <div className="max-w-lg">
+              <div className="max-w-lg pl-8">
                 <h1
                   className={`mb-4 md:mb-6 font-luxury text-3xl sm:text-4xl md:text-5xl lg:text-5xl lg:text-7xl font-normal tracking-tight ${styles.text}`}
                 >
@@ -1146,7 +1146,9 @@ export default function Home() {
           <div className="container px-4 mx-auto">
             <div className="text-center mb-12">
               <h3 className="section-subtitle">BOOK AN APPOINTMENT</h3>
-              <h2 className="section-title mb-4">Reserve Your Spa Experience</h2>
+<h2 className="section-title mb-4 font-bold" style={{ color: "#6a6661" }}>
+  Reserve Your Spa Experience
+</h2>
               <p className={`mx-auto mb-8 text-lg ${styles.subText} max-w-2xl font-elegant`}>
                 Take the first step toward relaxation and rejuvenation by booking your appointment with us today.
               </p>
