@@ -40,9 +40,31 @@ const cormorant = Cormorant_Garamond({
   variable: '--font-cormorant'
 })
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Aravē Spa | Luxury Wellness & Beauty",
-  description: "Experience luxury spa treatments and premium beauty products for your wellbeing at Aravē Spa"
+  description: "Experience luxury spa treatments and premium beauty products for your wellbeing at Aravē Spa",
+  openGraph: {
+    title: "Aravē Spa | Luxury Wellness & Beauty",
+    description: "Experience luxury spa treatments and premium beauty products for your wellbeing at Aravē Spa",
+    url: "https://arav-spa.vercel.app",
+    siteName: "Aravē Spa",
+    images: [
+      {
+        url: "https://arav-spa.vercel.app/images/spa.png",
+        width: 1200,
+        height: 630,
+        alt: "Aravē Spa Preview Image",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Aravē Spa | Luxury Wellness & Beauty",
+    description: "Experience luxury spa treatments and premium beauty products for your wellbeing at Aravē Spa",
+    images: ["https://arav-spa.vercel.app/images/spa.png"],
+  },
 }
 
 export default function RootLayout({
@@ -52,7 +74,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${cinzel.variable} ${ebGaramond.variable} ${raleway.variable} ${dancing.variable} ${playfair.variable} ${cormorant.variable} font-sans`}>{children}</body>
+      <body className={`${cinzel.variable} ${ebGaramond.variable} ${raleway.variable} ${dancing.variable} ${playfair.variable} ${cormorant.variable} font-sans`}>
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
     </html>
   )
 }

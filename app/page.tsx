@@ -853,7 +853,7 @@ export default function Home() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {testimonials.map((testimonial, index) => (
                   <div key={testimonial.id} className={`${index === activeTestimonial ? "block" : "hidden md:block"}`}>
-                    <div className="flex flex-col items-center z-50">
+                    <div className="flex flex-col items-center z-40">
                       <div className="w-20 h-20 mb-6 overflow-hidden rounded-full border-2 border-white shadow-lg z-50 relative">
                         <Image
                           src={testimonial.image || "/placeholder.svg"}
